@@ -4,16 +4,18 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.IllegalFormatCodePointException;
 
 /**
  * Created by hzhu6 on 9/29/15.
  */
-public class TweetlistTest extends ActivityInstrumentationTestCase2 {
+public class TweetlistTest extends ActivityInstrumentationTestCase2 implements MyObserver {
     public TweetlistTest() {
         super(ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity.class);
     }
 
+    private boolean wasNotified = false;
 
 
     public void testHoldsStuff(){
@@ -31,7 +33,7 @@ public class TweetlistTest extends ActivityInstrumentationTestCase2 {
         list.add(new NormalTweet("test"));
         assertEquals(list.count(), 2);
     }
-
+/*
     public void testReportDup(){
         try {
             Tweet tweeti = new NormalTweet("test1");
@@ -64,5 +66,19 @@ public class TweetlistTest extends ActivityInstrumentationTestCase2 {
         assertEquals(list.hasTweet(tweetiii), false);
         assertEquals(list.getCount(), 1);
     }
+*/
 
+
+    public void testTweetListisChanged(){
+        Tweetlist tweetlist = new Tweetlist();
+        Tweet tweet = new NormalTweet("hihihih");
+        tweetlist.addObserver(this);
+        assertFalse(wasNotified);
+        tweetlist.add(tweet);
+        assertTrue(wasNotified);
+    }
+    public void myNotify(){
+
+
+    }
 }

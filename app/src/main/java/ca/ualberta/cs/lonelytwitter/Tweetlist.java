@@ -5,12 +5,54 @@ import java.util.ArrayList;
 /**
  * Created by hzhu6 on 9/29/15.
  */
-public class Tweetlist {
+public class Tweetlist implements MyObservable{
     private Tweet mostRecentTweet;
     private ArrayList<Tweet> tweets =new ArrayList<Tweet>();
     private int tweetnum=0;
 
-    public void add(Tweet tweet){
+
+    public void add(Tweet tweet) {
+        mostRecentTweet = tweet;
+        tweets.add(tweet);
+ //       tweet.addObserver(this);
+         notifyObservers();
+    }
+
+    public Tweet getMostRecentTweet() {
+        return mostRecentTweet;
+    }
+
+    public int count() {
+        return tweets.size();
+    }
+
+    private volatile ArrayList<MyObserver> myObservers = new ArrayList<MyObserver>();
+
+
+
+
+
+
+    public void addObserver(MyObserver observer) {
+       myObservers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (MyObserver observer : myObservers) {
+            observer.myNotify();
+        }
+    }
+
+
+
+//    public void myNotify(MyObservable observable) {
+//        notifyAllObservers();
+//    }
+
+
+
+
+   /* public void add(Tweet tweet){
         mostRecentTweet=tweet;
         tweets.add(tweet);
         tweetnum++;
@@ -63,7 +105,5 @@ public class Tweetlist {
         return tweetnum;
     }
     //-- should accurately count up the tweets
-
-
-
+*/
 }
